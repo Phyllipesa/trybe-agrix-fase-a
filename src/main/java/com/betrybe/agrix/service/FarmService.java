@@ -47,7 +47,7 @@ public class FarmService {
   /**
    * getAllFarms retorna todas farms registradas no DB.
    *
-   * @return Uma lista de farms.
+   * @return Uma lista de farm.
    */
   public List<Farm> getAllFarms() {
     return farmRepository.findAll();
@@ -88,19 +88,4 @@ public class FarmService {
 
     return newCrop;
   }
-
-  //  /**
-  //   * getAllFarms retorna todas farms registradas no DB.
-  //   *
-  //   * @return Uma lista de farms.
-  //   */
-  //  public List<Crop> getAllCrops(Long farmId) {
-  //    Optional<Farm> optionalFarm = farmRepository.findById(farmId);
-  //
-  //    if (optionalFarm.isEmpty()) {
-  //      throw new FarmNotFound();
-  //    }
-  //
-  //    return cropRepository.findByFarmId(farmId);
-  //  }
 }

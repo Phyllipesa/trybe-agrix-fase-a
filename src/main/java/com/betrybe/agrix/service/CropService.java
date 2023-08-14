@@ -44,4 +44,13 @@ public class CropService {
   //  public Optional<List<Crop>> getCropsByFarmId(Long farmId) {
   //    return Optional.ofNullable(cropRepository.findAllByFarmId(farmId));
   //  }
+
+  /**
+   * getAllCrops retorna todas CROPS registradas no DB.
+   *
+   * @return Uma lista de crop.
+   */
+  public List<Crop> getAllCrops() {
+    return cropRepository.findAll();
+  }
 }

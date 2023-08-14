@@ -43,7 +43,7 @@ public class FarmController {
    * createFarm = Cria uma nova farm.
    *
    * @param farm informações da farm.
-   * @return HTTP status 201 e um farmDto.
+   * @return HTTP status.CREATED 201 e um farmDto.
    */
   @PostMapping()
   public ResponseEntity<Farm> createFarm(@RequestBody Farm farm) {
@@ -54,7 +54,7 @@ public class FarmController {
   /**
    * getAllFarms = Lista todas as farms registradas no DB.
    *
-   * @return HTTP status 200 e a lista de farmsDto.
+   * @return HTTP status.OK 200 e a lista de farmsDto.
    */
   @GetMapping()
   public ResponseEntity<List<FarmDto>> getAllFarms() {
@@ -70,7 +70,7 @@ public class FarmController {
    * getFarmById.
    *
    * @param id = ID da farm a ser buscada.
-   * @return HTTP status 200 e farmDto.
+   * @return HTTP status.OK 200 e farmDto.
    */
   @GetMapping("/{id}")
   public ResponseEntity<FarmDto> getFarmById(@PathVariable Long id) {
@@ -84,7 +84,7 @@ public class FarmController {
    *
    * @param farmId ID da farm a ser procurada.
    * @param crop informações a serem inseridas.
-   * @return retorna HTTP status CREATED e os dados da crop inserida.
+   * @return retorna HTTP status.CREATED e os dados da crop inserida.
    */
   @PostMapping("/{farmId}/crops")
   public ResponseEntity<CropDto> createCrop(@PathVariable Long farmId, @RequestBody Crop crop) {
@@ -97,7 +97,7 @@ public class FarmController {
    * getCropsByFarmId = Lista todas as Crops registradas no DB referentes a "farmId" informada.
    *
    * @param farmId = ID da farm informada.
-   * @return HTTP status 200 e a lista das CropsDto.
+   * @return HTTP status.OK 200 e a lista das CropsDto.
    */
 
   @GetMapping("/{farmId}/crops")
@@ -111,14 +111,4 @@ public class FarmController {
 
     return ResponseEntity.ok(cropsDto);
   }
-
-  //  @GetMapping("/farms/{farmId}/crops")
-  //  public ResponseEntity<List<Crop>> getAllCrops(@PathVariable Long farmId) {
-  //    List<Crop> allCrops = farmService.getAllCrops(farmId);
-  //    List<CropDto> cropsDtoList = allCrops.stream()
-  //        .map(crop -> cropEntityToDto(crop))
-  //        .toList();
-  //
-  //    return ResponseEntity.ok(allCrops);
-  //  }
 }
