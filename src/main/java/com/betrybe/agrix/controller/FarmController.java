@@ -1,10 +1,13 @@
 package com.betrybe.agrix.controller;
 
+import static com.betrybe.agrix.controller.dto.CropDto.cropEntityToDto;
+
+import com.betrybe.agrix.controller.dto.CropDto;
 import com.betrybe.agrix.controller.dto.FarmDto;
+import com.betrybe.agrix.model.entities.Crop;
 import com.betrybe.agrix.model.entities.Farm;
 import com.betrybe.agrix.service.FarmService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/farms")
 public class FarmController {
+
   private final FarmService farmService;
 
   /**
-   * Recebe um bean do tipo FarmServiceInterface por injeção de dependência.
+   * Recebe um bean do tipo FarmService por injeção de dependência.
    *
    * @param farmService service.
    */
@@ -38,44 +42,83 @@ public class FarmController {
   /**
    * createFarm = Cria uma nova farm.
    *
-   * @param farmDto informações da farm.
-   * @return HTTP status 201 e com os dados retornados do DB.
+   * @param farm informações da farm.
+   * @return HTTP status 201 e um farmDto.
    */
   @PostMapping()
-  public ResponseEntity<Farm> createFarm(@RequestBody FarmDto farmDto) {
-    Farm newFarm = farmService.insertFarm(farmDto.toFarm());
+  public ResponseEntity<Farm> createFarm(@RequestBody Farm farm) {
+    Farm newFarm = farmService.insertFarm(farm);
     return ResponseEntity.status(HttpStatus.CREATED).body(newFarm);
   }
 
   /**
    * getAllFarms = Lista todas as farms registradas no DB.
    *
-   * @return HTTP status 200 e a lista das farms.
+   * @return HTTP status 200 e a lista de farmsDto.
    */
-
   @GetMapping()
   public ResponseEntity<List<FarmDto>> getAllFarms() {
     List<Farm> allFarms = farmService.getAllFarms();
-    List<FarmDto> farmDtoList = allFarms.stream()
-        .map(FarmDto::fromEntity)
+    List<FarmDto> farmsDtoList = allFarms.stream()
+        .map(FarmDto::farmEntityToDto)
         .toList();
 
-    return ResponseEntity.ok(farmDtoList);
+    return ResponseEntity.ok(farmsDtoList);
   }
 
   /**
-   * getFarmById = Retorna a farm com o ID fornecido.
+   * getFarmById.
    *
    * @param id = ID da farm a ser buscada.
-   * @return HTTP status 200 e a farm com o ID especificado..
+   * @return HTTP status 200 e farmDto.
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Farm> getFarmById(@PathVariable Long id) {
-    Optional<Farm> optionalFarm = farmService.getFarmById(id);
-    if (optionalFarm.isEmpty()) {
-      throw new FarmException();
-    }
-
-    return  ResponseEntity.ok(optionalFarm.get());
+  public ResponseEntity<FarmDto> getFarmById(@PathVariable Long id) {
+    Farm farm = farmService.getFarmById(id);
+    FarmDto farmDto = FarmDto.farmEntityToDto(farm);
+    return ResponseEntity.ok(farmDto);
   }
+
+  /**
+   * insertFarm insere uma nova farm no DB.
+   *
+   * @param farmId ID da farm a ser procurada.
+   * @param crop informações a serem inseridas.
+   * @return retorna HTTP status CREATED e os dados da crop inserida.
+   */
+  @PostMapping("/{farmId}/crops")
+  public ResponseEntity<CropDto> createCrop(@PathVariable Long farmId, @RequestBody Crop crop) {
+    Crop newCrop = farmService.insertCrop(farmId, crop);
+    CropDto novo = cropEntityToDto(newCrop);
+    return ResponseEntity.status(HttpStatus.CREATED).body(novo);
+  }
+
+  /**
+   * getCropsByFarmId = Lista todas as Crops registradas no DB referentes a "farmId" informada.
+   *
+   * @param farmId = ID da farm informada.
+   * @return HTTP status 200 e a lista das CropsDto.
+   */
+
+  @GetMapping("/{farmId}/crops")
+  public ResponseEntity<List<CropDto>> getCropsByFarmId(@PathVariable Long farmId) {
+    Farm farm = farmService.getFarmById(farmId);
+
+    List<Crop> allCrops = farm.getCrops();
+    List<CropDto> cropsDto = allCrops.stream()
+        .map(CropDto::cropEntityToDto)
+        .toList();
+
+    return ResponseEntity.ok(cropsDto);
+  }
+
+  //  @GetMapping("/farms/{farmId}/crops")
+  //  public ResponseEntity<List<Crop>> getAllCrops(@PathVariable Long farmId) {
+  //    List<Crop> allCrops = farmService.getAllCrops(farmId);
+  //    List<CropDto> cropsDtoList = allCrops.stream()
+  //        .map(crop -> cropEntityToDto(crop))
+  //        .toList();
+  //
+  //    return ResponseEntity.ok(allCrops);
+  //  }
 }

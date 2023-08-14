@@ -13,8 +13,8 @@ public class ControllerAdvice {
   /**
    * ControllerAdvice - Faz o gerenciamento de erros da aplicação.
    */
-  @ExceptionHandler(FarmException.class)
-  public ResponseEntity<String> handlerFarmNotFound(FarmException error) {
+  @ExceptionHandler(FarmNotFound.class)
+  public ResponseEntity<String> handlerFarmNotFound(FarmNotFound error) {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
         .body(error.getMessage());

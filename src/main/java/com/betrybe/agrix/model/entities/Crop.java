@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 
 /**
  * Crop Model Class.
@@ -16,10 +19,11 @@ import jakarta.persistence.Table;
 public class Crop {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Long id;
 
-  @Column(name = "farm_id")
-  private Integer farmId;
+  @ManyToOne
+  @JoinColumn(name = "farm_id")
+  private Farm farm;
 
   private String name;
 
@@ -32,32 +36,32 @@ public class Crop {
    * Crop constructor.
    *
    * @param id "id".
-   * @param farmId "farmId".
+   * @param farm "farm".
    * @param name "max_dist_km".
    * @param plantedArea "max_dist_km".
    */
 
-  public Crop(Integer id, Integer farmId, String name, Double plantedArea) {
+  public Crop(Long id, Farm farm, String name, Double plantedArea) {
     this.id = id;
-    this.farmId = farmId;
     this.name = name;
     this.plantedArea = plantedArea;
+    this.farm = farm;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
-  public Integer getFarmId() {
-    return farmId;
+  public Farm getFarm() {
+    return farm;
   }
 
-  public void setFarmId(Integer farmId) {
-    this.farmId = farmId;
+  public void setFarm(Farm farm) {
+    this.farm = farm;
   }
 
   public String getName() {
