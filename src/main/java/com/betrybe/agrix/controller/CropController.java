@@ -3,7 +3,9 @@ package com.betrybe.agrix.controller;
 import static com.betrybe.agrix.controller.dto.CropDto.cropEntityToDto;
 
 import com.betrybe.agrix.controller.dto.CropDto;
+import com.betrybe.agrix.controller.dto.FarmDto;
 import com.betrybe.agrix.model.entities.Crop;
+import com.betrybe.agrix.model.entities.Farm;
 import com.betrybe.agrix.service.CropService;
 import com.betrybe.agrix.service.FarmService;
 import java.util.List;
@@ -41,5 +43,18 @@ public class CropController {
         .toList();
 
     return ResponseEntity.ok(cropsDtoList);
+  }
+
+  /**
+   * getCropById.
+   *
+   * @param id = ID da crop a ser buscada.
+   * @return HTTP status.OK 200 e cropDto.
+   */
+  @GetMapping("/{id}")
+  public ResponseEntity<CropDto> getCropById(@PathVariable Long id) {
+    Crop crop = cropService.getCropById(id);
+    CropDto cropDto = CropDto.cropEntityToDto(crop);
+    return ResponseEntity.ok(cropDto);
   }
 }

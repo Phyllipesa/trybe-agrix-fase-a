@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ControllerAdvice {
 
   /**
-   * ControllerAdvice - Faz o gerenciamento de erros da aplicação.
+   * FarmNotFound - Tratamento de erro caso farm não encontrada.
    */
   @ExceptionHandler(FarmNotFound.class)
   public ResponseEntity<String> handlerFarmNotFound(FarmNotFound error) {
@@ -20,11 +20,24 @@ public class ControllerAdvice {
         .body(error.getMessage());
   }
 
-  //  @ExceptionHandler(Exception.class)
-  //  public ResponseEntity<String> handlerException(Exception error) {
-  //    System.out.println(error.getMessage());
-  //    return ResponseEntity
-  //        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-  //        .body(error.getMessage());
-  //  }
+  /**
+   * CropNotFound - Tratamento de erro caso crop não encontrada.
+   */
+  @ExceptionHandler(CropNotFound.class)
+  public ResponseEntity<String> handlerCropNotFound(CropNotFound error) {
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(error.getMessage());
+  }
+
+  /**
+   * Exception - Tratamento de erro interno do servidor.
+   */
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> handlerException(Exception error) {
+    System.out.println(error.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(error.getMessage());
+  }
 }

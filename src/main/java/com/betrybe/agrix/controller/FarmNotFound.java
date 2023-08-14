@@ -1,7 +1,7 @@
 package com.betrybe.agrix.controller;
 
 /**
- * FarmException - Classe de erro customizada para Farm.
+ * FarmNotFound - Classe de erro customizada para Farm.
  */
 
 public class FarmNotFound extends RuntimeException {

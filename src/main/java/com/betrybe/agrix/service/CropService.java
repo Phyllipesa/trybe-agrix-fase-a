@@ -1,8 +1,8 @@
 package com.betrybe.agrix.service;
 
+import com.betrybe.agrix.controller.CropNotFound;
 import com.betrybe.agrix.model.entities.Crop;
 import com.betrybe.agrix.model.repositories.CropRepository;
-import com.betrybe.agrix.model.repositories.FarmRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,33 +17,16 @@ public class CropService {
 
   @Autowired
   private final CropRepository cropRepository;
-  private final FarmRepository farmRepository;
 
   /**
    * Constructor = faz a injeção de dependencia na services especificadas.
    *
-   * @param farmRepository farm repository
+   * @param cropRepository farm repository
    */
 
-  public CropService(
-      CropRepository cropRepository,
-      FarmRepository farmRepository
-  ) {
+  public CropService(CropRepository cropRepository) {
     this.cropRepository = cropRepository;
-    this.farmRepository = farmRepository;
   }
-
-  //  /**
-  //   * getCropsByFarmId.
-  //   *
-  //   * @param farmId = ID da farm a ser usado como referencia
-  //   *              na buscada das crops referentes a essa farm.
-  //   *
-  //   * @return Uma lista com todas as crops relacionadas com a Farm especificada.
-  //   */
-  //  public Optional<List<Crop>> getCropsByFarmId(Long farmId) {
-  //    return Optional.ofNullable(cropRepository.findAllByFarmId(farmId));
-  //  }
 
   /**
    * getAllCrops retorna todas CROPS registradas no DB.
@@ -52,5 +35,21 @@ public class CropService {
    */
   public List<Crop> getAllCrops() {
     return cropRepository.findAll();
+  }
+
+  /**
+   * getCropById busca por uma farm com o ID especificado.
+   *
+   * @param id O id da crop a ser procurada.
+   * @return crop com o ID especificado.
+   */
+  public Crop getCropById(Long id) {
+    Optional<Crop> optionalCrop = cropRepository.findById(id);
+
+    if (optionalCrop.isEmpty()) {
+      throw new CropNotFound();
+    }
+
+    return optionalCrop.get();
   }
 }

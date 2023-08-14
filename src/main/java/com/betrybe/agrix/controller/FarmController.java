@@ -99,7 +99,6 @@ public class FarmController {
    * @param farmId = ID da farm informada.
    * @return HTTP status.OK 200 e a lista das CropsDto.
    */
-
   @GetMapping("/{farmId}/crops")
   public ResponseEntity<List<CropDto>> getCropsByFarmId(@PathVariable Long farmId) {
     Farm farm = farmService.getFarmById(farmId);
