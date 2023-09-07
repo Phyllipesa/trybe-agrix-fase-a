@@ -39,8 +39,6 @@ Instale as dependências
 ```bash
   mvn install
 ```
- -m pytest
-```
 
 ## Tecnologias
 
