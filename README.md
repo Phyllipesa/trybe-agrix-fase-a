@@ -25,7 +25,7 @@ Habilidades exercitadas:
 Clone o projeto 
 
 ```bash
-  git clone git@github.com:brunokye/trybe-27-algorithms.git
+  git clone git@github.com:Phyllipesa/trybe-agrix-fase-a.git
 ```
 
 Entre no diretório
