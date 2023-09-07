@@ -40,6 +40,14 @@ Instale as dependências
   mvn install
 ```
 
+Abra o projeto usando Vscode ou Intellij
+
+Rodando a aplicação
+
+```bash
+  mvn spring-boot:run
+```
+
 ## Tecnologias
 
  - Java
